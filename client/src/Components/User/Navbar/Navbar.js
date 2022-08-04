@@ -19,6 +19,21 @@ import AuthModal from '../AuthModal/AuthModal';
 const pages = ['Products', 'Pricing', 'Blog'];
 
 const Navbar = () => {
+  // const [isLogin,setIsLogin] = React.useState('')
+  const token = localStorage.getItem('Usertoken')
+
+ 
+
+  const handleLogin = ()=>{
+    if (token) {
+      localStorage.removeItem('Usertoken')
+      setAnchorElNav(null);
+     } else{
+      setAnchorElNav(null);
+     } 
+  }
+
+
   const [openModal, setOpenModal] = React.useState(false)
 
   const [openSignUp, setOpenSignUp] = React.useState(false)
@@ -110,7 +125,7 @@ const Navbar = () => {
                 }}
               >
                 {/* pages */}
-                <Drawer anchor='top' open={isDrawerOpen} onClose={() => { setIsDrawerOpen(false) }}>
+                <Drawer anchor='top' open={isDrawerOpen} onClose={() => { setIsDrawerOpen(false) }}>  
                   {pages.map((page) => (
                     <MenuItem key={page} onClick={handleCloseNavMenu}>
                       <Typography textAlign="center">{page}</Typography>
@@ -195,26 +210,34 @@ const Navbar = () => {
                 <MenuItem key="Profile" onClick={() => { handleCloseUserMenu() }}>
                   <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
-                <MenuItem key="Profile" onClick={() => {
+               {!token ?  <MenuItem key="Profile" onClick={() => {
                   setOpenModal(true)
                   handleCloseUserMenu()
                 }}>
                   <Typography textAlign="center" >Login</Typography>
-                </MenuItem>
+                </MenuItem> :''
+                }
 
-                <MenuItem key="Profile" onClick={() => {
+                {!token ? <MenuItem key="Profile" onClick={() => {
                   setOpenSignUp(true)
                   handleCloseUserMenu()
                 }}>
                   <Typography textAlign="center" >SignUp</Typography>
+                </MenuItem>  :
+                <MenuItem key="Profile" onClick={() => {
+                  handleLogin()
+                   handleCloseUserMenu()
+                }}>
+                  <Typography textAlign="center" >Logout</Typography>
                 </MenuItem>
+                }  
               </Menu>
             </Box>
           </Toolbar>
         </Container>
 
       </AppBar>
-      {openModal ? <AuthModal onChange={handleClose} action="login" /> : ''}
+      {openModal ? <AuthModal onChange={handleClose} action="login" onAuthChange={handleLogin}/> : ''}
       {openSignUp ? <AuthModal onChange={handleClose} action='signup' /> : ''}
     </>
   );

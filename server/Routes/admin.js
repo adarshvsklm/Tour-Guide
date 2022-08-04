@@ -1,6 +1,8 @@
-let express = require('express')
+// let express = require('express')
+import express from'express'
+
 let router = express.Router();
 
 
 
-module.exports = router;
+export default router;

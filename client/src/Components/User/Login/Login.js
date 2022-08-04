@@ -12,6 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
+import axios from 'axios'
+import { serverUrl } from '../../../serverUrl';
+
 
 function Copyright(props) {
   return (
@@ -29,16 +33,51 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login(props) {
-   const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState(null)
+
+
+  async function handleLogin(event) {
+    event.preventDefault()
+
+    // const response = await fetch('http://localhost:9000/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     email,
+    //     password
+    //   })
+    // })
+    const data = { email, password }
+    axios.post(`${serverUrl}/login`, data).then((res) => {
+       if (res.data.user) {
+
+        localStorage.setItem('Usertoken', res.data.user)
+        // toast("Login  Success ! ",{autoClose:800})
+        // console.log(data);
+        setError(null)
+        props.closeLogin()
+        // navigate('/')
+        // window.location.href='/dashboard'
+
+      } else {
+        setError("email or password is incorrect")
+        // alert('PLease check your username and password')
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
   };
 
-  const handleAction=()=>{
+
+
+  const handleAction = () => {
     props.onChange('login')
   }
 
@@ -60,8 +99,11 @@ export default function Login(props) {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <small>{error}</small>
+          <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
             <TextField
+            value={email}
+            onChange={(e)=>{setEmail(e.target.value)}}
               margin="normal"
               required
               fullWidth
@@ -72,6 +114,8 @@ export default function Login(props) {
               autoFocus
             />
             <TextField
+            value={password}
+            onChange={(e)=>{setPassword(e.target.value)}}
               margin="normal"
               required
               fullWidth
@@ -86,6 +130,7 @@ export default function Login(props) {
               label="Remember me"
             />
             <Button
+              onClick={handleLogin}
               type="submit"
               fullWidth
               variant="contained"
@@ -93,21 +138,21 @@ export default function Login(props) {
             >
               Sign In
             </Button>
-              
-              <Grid >
-                <Link href="#" variant="body2" align="center" sx={{display:"block" ,mt:1}}>
-                  Forgot password?
-                </Link>
-              </Grid>          
-              <Grid >  
-                <Link href="#" variant="body2" align="center" sx={{display:"block" ,mt:1}} onClick={handleAction} >
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>  
-            
+
+            <Grid >
+              <Link href="#" variant="body2" align="center" sx={{ display: "block", mt: 1 }}>
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid >
+              <Link href="#" variant="body2" align="center" sx={{ display: "block", mt: 1 }} onClick={handleAction} >
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+
           </Box>
         </Box>
-       </Container>
+      </Container>
     </ThemeProvider>
   );
 }

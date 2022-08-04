@@ -21,12 +21,13 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 600,
+    // width: 600,
     bgcolor: 'background.paper',
      boxShadow: 24,
     p: 4,
     borderRadius : 3
-};
+ };
+ 
 
 export default function AuthModal(props) {
 
@@ -48,7 +49,8 @@ export default function AuthModal(props) {
 
 
     return (
-        <div>
+        <div  >
+            
             <Card >
                 <Modal   
                     open={open}
@@ -59,10 +61,12 @@ export default function AuthModal(props) {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}>
-                        {action == 'login' ? <Login onChange={handleAction} /> : <SignUp onChange={handleAction}  />}
+                    <Box
+                     sx={style}
+                      >
+                        {action == 'login' ? <Login onChange={handleAction} closeLogin={handleClose}/> : <SignUp onChange={handleAction} closeSignUp={handleClose} />}
 
-                    </Box>
+                    </Box>  
                 </Modal>
             </Card>
             <Box sx={{ p: 5 }} /> 
