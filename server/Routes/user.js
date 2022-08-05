@@ -1,6 +1,10 @@
-let express = require('express')
+ import express from'express'
 let router = express.Router();
+import Authentication from '../Controller/User/Authentication.js'
 
 
 
-module.exports = router;
+router.post('/signup',Authentication.signUp)
+router.post('/login',Authentication.login)
+
+export default  router;
