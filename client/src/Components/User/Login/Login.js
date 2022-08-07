@@ -60,7 +60,7 @@ export default function Login(props) {
       console.log(res.request.status);
        if (res.request.status == 200) {
  
-        localStorage.setItem('Usertoken', res.data.user)
+        localStorage.setItem('User', res.data.user)
         // toast("Login  Success ! ",{autoClose:800})
         // console.log(data);
         setError(null)
@@ -73,9 +73,9 @@ export default function Login(props) {
         // alert('PLease check your username and password')
       }
     }).catch((err) => {
+      console.log('489384938498398343');
       if(err.request.status){
         setError("email or password is incorrect")
-
       }
       console.log(err);
     })

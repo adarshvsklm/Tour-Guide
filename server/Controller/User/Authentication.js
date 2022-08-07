@@ -11,26 +11,6 @@ import { createError } from '../../createError.js';
 dotenv.config();
 
 export default {
-//   signUp: async (req, res) => {
-//     console.log(req.body);
-//     try {
-//       const newpassword = await bcrypt.hash(req.body.password, 10);
-//       await User.create({
-//         name: req.body.name,
-//         email: req.body.email,
-//         phone: req.body.phoneNumber,
-//         password: newpassword,
-//       });
-//       res.json({ status: 200 });
-//     } catch (err) {
-//       console.log(err);
-
-//       res.json({ status: 400, error: 'Duplicate email' });
-//     } finally {
-//       console.log('djsdjkjdh');
-//     }
-//   },
-
 signUp : asyncHandler(async(req,res,next)=>{
   const user = await User.findOne({
     email: req.body.email,
@@ -61,20 +41,7 @@ signUp : asyncHandler(async(req,res,next)=>{
      
     if (isUserValid) {
         console.log(9348534);
-      //   console.log(user.name, 87654334567890);
-
-      //   const token = jwt.sign(
-      //     {
-      //       id: user._id,
-      //       name: user.name,
-      //       email: user.email,
-      //     },
-      //     process.env.JWT_SECRET_KEY
-      //   );
-      //   // console.log('logged in');
-      //   return res.json({ status: 200, user: token, userDetails: user });
-      // } else {
-      //   return res.json({ status: 400, user: false });
+ 
 
       const userDetails = { id: user._id, name: user.name, email: user.email };
 
@@ -88,7 +55,7 @@ signUp : asyncHandler(async(req,res,next)=>{
           $set: { refreshToken: refreshToken },
         }
       );
-       res.cookie('accessToken', accessToken, {maxAge:90,httpOnly: true });
+       res.cookie('accessToken', accessToken, {maxAge:60,httpOnly: true });
        res.cookie('refreshToken', refreshToken, {httpOnly: true });
        res.cookie('userId', user._id, {httpOnly: true });
 
@@ -100,7 +67,7 @@ signUp : asyncHandler(async(req,res,next)=>{
     console.log(req.body);  
   },
   test:(req,res)=>{
-    console.log(984758347583459873947598347983479837);
-    console.log(req.cookies);
+    // console.log(984758347583459873947598347983479837);
+    // console.log(req.cookies);
     }
 };

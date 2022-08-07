@@ -22,15 +22,16 @@ const pages = ['Products', 'Pricing', 'Blog'];
 
 const Navbar = () => {
   const [isLogin, setIsLogin] = React.useState('');
-  let token = localStorage.getItem('Usertoken');
+  let token = localStorage.getItem('User');
 
   const handleLogin = () => {
+    console.log(8374344,'handle login');
     if (token) {
-      localStorage.removeItem('Usertoken');
+      localStorage.removeItem('User');
       setAnchorElNav(null);
     } else {
       console.log(87654323456789);
-      let token = localStorage.getItem('Usertoken');
+      let token = localStorage.getItem('User');
       setAnchorElNav(null);
     }
   };
@@ -68,7 +69,7 @@ const Navbar = () => {
     // axios.defaults.withCredentials = true;
     try {
       // console.log('kkkkkkkkkkk');
-      const response = await axios.get('http://localhost:9000/test', {
+      const response = await axios.get(`${serverUrl}/test`, {
         withCredentials: true,
       });
       // console.log(response);
@@ -78,32 +79,23 @@ const Navbar = () => {
           const response2 = await axios.get(`${serverUrl}/token`, {
             withCredentials: true,
           });
-          console.log(response2,873843748734);
-          const response = await axios.get('http://localhost:9000/test', {
-        withCredentials: true,
-      });
+          console.log(response2, 873843748734);
+          const response = await axios.get(`${serverUrl}/test`, {
+            withCredentials: true,
+          });
+
+          alert("posts")
         } catch (err2) {
-          console.log( 843748743);
+          console.log(843748743);
           console.log(err2);
-          token=null
-          localStorage.removeItem('Usertoken');
-          setAnchorElNav(null);        }
+          token = null;
+          localStorage.removeItem('User');
+          setAnchorElNav(null);
+        }
       }
       console.log(err, 5654);
     }
-    // console.log(response);
-    //     .then((res) => {
-    //     console.log(res);
-    //     alert('dhkjhksjhksjd')
-    //     if(res.response.status){
-    //       console.log(48723989323);
-    //     }
-
-    //  })
-    // .catch((err)=>{
-    //   console.log('catchhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
-    //   console.log(err);
-    // })
+  
   };
 
   return (
@@ -262,7 +254,7 @@ const Navbar = () => {
                 {!token ? (
                   <div>
                     <MenuItem
-                      key='Profile'
+                      key='login'
                       onClick={() => {
                         setOpenModal(true);
                         handleCloseUserMenu();
@@ -271,7 +263,7 @@ const Navbar = () => {
                       <Typography textAlign='center'>Login</Typography>
                     </MenuItem>
                     <MenuItem
-                      key='Profile'
+                      key='signUp'
                       onClick={() => {
                         setOpenSignUp(true);
                         handleCloseUserMenu();
@@ -282,7 +274,7 @@ const Navbar = () => {
                   </div>
                 ) : (
                   <MenuItem
-                    key='Profile'
+                    key='logout'
                     onClick={() => {
                       handleLogin();
                       handleCloseUserMenu();
