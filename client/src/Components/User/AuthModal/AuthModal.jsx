@@ -68,7 +68,11 @@ export default function AuthModal(props) {
                     <Box
                      sx={style}
                       >
+<<<<<<< HEAD
                         {action == 'login' ? <Login onAuthChange={handleLogin} onChange={handleAction} closeLogin={handleClose}/> : <SignUp onChange={handleAction} closeSignUp={handleClose} />}
+=======
+                        {action == 'login' ? <Login onChange={handleAction} closeLogin={handleClose}/> : <SignUp onChange={handleAction} closeSignUp={handleClose} />}
+>>>>>>> 402894ed6a70e4fbb1ef61ddd15fdaab5e5d38a9
 
                     </Box>  
                 </Modal>
