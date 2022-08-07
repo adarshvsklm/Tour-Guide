@@ -46,6 +46,10 @@ export default function AuthModal(props) {
           prevAction =='login' ? setAction('signUp') : setAction('login')
     }
 
+    const handleLogin = ()=>{
+        props.onAuthChange()
+    }
+
 
 
     return (
@@ -64,7 +68,7 @@ export default function AuthModal(props) {
                     <Box
                      sx={style}
                       >
-                        {action == 'login' ? <Login onChange={handleAction} closeLogin={handleClose}/> : <SignUp onChange={handleAction} closeSignUp={handleClose} />}
+                        {action == 'login' ? <Login onAuthChange={handleLogin} onChange={handleAction} closeLogin={handleClose}/> : <SignUp onChange={handleAction} closeSignUp={handleClose} />}
 
                     </Box>  
                 </Modal>

@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -14,74 +14,65 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormHelperText } from '@mui/material';
-import axios from 'axios'
+import axios from 'axios';
 import { serverUrl } from '../../../serverUrl';
 import Verification from './OtpVerificationModal';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';  
-import InputAdornment from '@mui/material/InputAdornment';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+// import InputAdornment from '@mui/material/InputAdornment';
 
 // import { GOOGLE_CLIENT_ID } from '../../../config';
 import { GOOGLE_CLIENT_ID } from '../../../config';
 // import GOOGLE_CLIENT_ID from '../../../config'
-import GoogleLogin from 'react-google-login';  
+import GoogleLogin from 'react-google-login';
 import { useCookies } from 'react-cookie';
-
-
-function Copyright(props) {
-
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
+import { gapi } from "gapi-script";
+ 
 const theme = createTheme();
 
 export default function SignUp(props) {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
-  const [password, setPassword] = useState('')
-  const [cpassword, setCPassword] = useState('')
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
+  const [cpassword, setCPassword] = useState('');
+  const [error,setError] = useState('')
 
-  const [otpModal, setOtpModal] = useState(false)
-  const [otp,setOtp] = useState(null)
-  const handleOtpModal = ()=>{
-    setOtpModal(false)
-  }
+  const [otpModal, setOtpModal] = useState(false);
+  const [otp, setOtp] = useState(null);
+  const handleOtpModal = () => {
+    setOtpModal(false);
+  };
 
-  const handleOtp =(otpNumber)=>{
-    otpNumber=parseInt(otpNumber)
-    setOtp(otpNumber)
-  }
+  const handleOtp = (otpNumber) => {
+    otpNumber = parseInt(otpNumber);
+    setOtp(otpNumber);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(name, email, phoneNumber);
-    const data = { name, email, phoneNumber, password,otp }
+    // console.log(name, email, phoneNumber);
+    const data = { name, email, phoneNumber, password, otp };
 
-    axios.post(`${serverUrl}/signup`, data).then((res) => {
-        console.log(res);
-        props.onChange('signup')
-    }).catch((err) => {
-        console.log(err);
-    })
+    axios
+      .post(`${serverUrl}/signup`, data)
+      .then((res) => {
+         props.onChange('signup');
+      })
+      .catch((err) => {
+         if(err.request.status == 409){
+          setError("An account with this email already exists")
+        }
+      });
   };
 
-
   const handleAction = () => {
-    props.onChange('signup')
-  }
-
+    props.onChange('signup');
+  };
 
   // phone number validation
-  let hasPhoneValid = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(phoneNumber)
+  let hasPhoneValid = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
+    phoneNumber
+  );
 
   //password validation
 
@@ -91,47 +82,59 @@ export default function SignUp(props) {
   let hasNumber = /(.*[0-9].*)/.test(password);
   let hasSpecialChar = /(.*[^a-zA-Z0-9].*)/.test(password);
   //email validation
-  const hasEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email);
+  const hasEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(
+    email
+  );
 
-// google  
+  // google
 
-const [cookies, setCookies] = useCookies();
-const [signupData, setSignupData] = useState(cookies.signupData ? cookies.signupData : null);
+  const [cookies, setCookies] = useCookies();
+  const [_, setSignupData] = useState(
+    cookies.signupData ? cookies.signupData : null
+  );
 
-const handleLogin = async (googleData) => {
-  try {
-    const res = await axios({
-      method: 'post',
-      url: 'http://localhost:2000/google_signup',
-      data: {
-        token: googleData.tokenId,
-      },
-    });
-    console.log(res);
-    setSignupData(res);
-    if (res) {
+  const handleLogin = async (googleData) => {
+    try {
+      const res = await axios({
+        method: 'post',
+        url: 'http://localhost:9000/google_signUp',
+        data: {
+          token: googleData.tokenId,
+        },
+      });
+       setSignupData(res);
+      
+      setCookies('signupData', { login: true }, { path: '/' });
+    } catch (err) {
       // handleClose();
-      props.setUserLogin(true);
+      setCookies('signupData', { login: true }, { path: '/' });
+      // props.setUserLogin(true);
+    }
+  };
+  useEffect(() => {
+    function start() {
+      gapi.auth2.init({
+        client_id: GOOGLE_CLIENT_ID,
+        scope: 'email',
+      });
     }
 
-    setCookies('signupData', { login: true }, { path: '/' });
-  } catch (err) {
-    // handleClose();
-    setCookies('signupData', { login: true }, { path: '/' });
-    props.setUserLogin(true);
-  }
-};
+    gapi.load('client:auth2', start);
+  }, []);
 
-    const handleFailure = (result) => {
-      console.log(result);
-    };
-
+  const handleFailure = (result) => {
+    console.log(result);
+  };
 
   return (
     <>
-    {otpModal ? <Verification onChange={handleOtpModal} saveOtp ={handleOtp}/> : ''}
+      {otpModal ? (
+        <Verification onChange={handleOtpModal} saveOtp={handleOtp} />
+      ) : (
+        ''
+      )}
       <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
+        <Container component='main' maxWidth='xs'>
           <CssBaseline />
           <Box
             sx={{
@@ -141,47 +144,55 @@ const handleLogin = async (googleData) => {
               alignItems: 'center',
             }}
           >
-            <div className="googleSignup">
-                   <GoogleLogin
-                     className="googleButton"
-                     clientId={GOOGLE_CLIENT_ID}
-                     buttonText="Signup with Google"
-                     onSuccess={handleLogin}
-                     onFailure={handleFailure}
-                     cookiePolicy="single_host_origin"
-                   ></GoogleLogin>
-                 </div>
+            <div className='googleSignup'>
+              <GoogleLogin
+                className='googleButton'
+                clientId={GOOGLE_CLIENT_ID}
+                buttonText='Signup with Google'
+                onSuccess={handleLogin}
+                onFailure={handleFailure}
+                cookiePolicy='single_host_origin'
+              ></GoogleLogin>
+            </div>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography component='h1' variant='h5'>
               Sign Up
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <Box
+              component='form'
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
+              <small style={{color:"red"}}>{error}</small>
               <TextField
                 value={name}
                 required
-                margin="normal"
+                margin='normal'
                 fullWidth
-                id="name"
-                label="Name"
-                name="name"
-                autoComplete="Name"
+                id='name'
+                label='Name'
+                name='name'
+                autoComplete='Name'
                 autoFocus
-                onChange={(e) => { setName(e.target.value) }}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
               />
               <TextField
                 value={email}
-                margin="normal"
+                margin='normal'
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id='email'
+                label='Email Address'
+                name='email'
+                autoComplete='email'
                 autoFocus
-                onChange={(e) => setEmail(e.target.value)}  
-                 icon ={<CheckCircleIcon/>} 
+                onChange={(e) => setEmail(e.target.value)}
+                icon={<CheckCircleIcon />}
                 // InputProps={{
                 //   endAdornment: (
                 //     <InputAdornment  >
@@ -190,22 +201,25 @@ const handleLogin = async (googleData) => {
                 //   ),
                 // }}
               />
-                   
-              {email && (
+
+              {email &&
                 // <small style={hasEmail ? { color: "green" } : { color: "red" }}>
                 //   {hasEmail ? <span>Email validated</span> : <span>provide correct Email address</span>}
                 // </small>
-                hasEmail ? '':<small style={{color :"red"}}>Enter a valid Email</small>
-              )}
+                (hasEmail ? (
+                  ''
+                ) : (
+                  <small style={{ color: 'red' }}>Enter a valid Email</small>
+                ))}
               <TextField
                 value={phoneNumber}
-                margin="normal"
+                margin='normal'
                 required
                 fullWidth
-                id="phoneNumber"
-                label="Phone Number"
-                name="phoneNumber"
-                autoComplete="PhoneNumber"
+                id='phoneNumber'
+                label='Phone Number'
+                name='phoneNumber'
+                autoComplete='PhoneNumber'
                 autoFocus
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 // InputProps={{
@@ -217,55 +231,82 @@ const handleLogin = async (googleData) => {
                 // }}
               />
               {phoneNumber && (
-                <small style={hasPhoneValid ? { color: "green" } : { color: "red" }}>
-                  {hasPhoneValid ?  '': <span>provide correct Phone Number</span>}
-                </small>  
+                <small
+                  style={hasPhoneValid ? { color: 'green' } : { color: 'red' }}
+                >
+                  {hasPhoneValid ? (
+                    ''
+                  ) : (
+                    <span>provide correct Phone Number</span>
+                  )}
+                </small>
               )}
-              <Link onClick={()=>{setOtpModal(true)}} style={{ float: "right" }} variant="body2" href="#">Verify Phone Number</Link>
+              <Link
+                onClick={() => {
+                  setOtpModal(true);
+                }}
+                style={{ float: 'right' }}
+                variant='body2'
+                href='#'
+              >
+                Verify Phone Number
+              </Link>
               <TextField
                 value={password}
-                margin="normal"
+                margin='normal'
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
+                name='password'
+                label='Password'
+                type='password'
+                id='password'
+                autoComplete='current-password'
                 onChange={(e) => setPassword(e.target.value)}
-                 
               />
               {password && (
-                <div className="ml-1" style={{ columns: '2' }}>
+                <div className='ml-1' style={{ columns: '2' }}>
                   <div>
-                    <small style={hasSixChar ? { color: "green" } : { color: "red" }}
+                    <small
+                      style={hasSixChar ? { color: 'green' } : { color: 'red' }}
                     >
                       Atleast six characters
                     </small>
                   </div>
 
                   <div>
-                    <small style={hasLowerChar ? { color: "green" } : { color: "red" }}>
+                    <small
+                      style={
+                        hasLowerChar ? { color: 'green' } : { color: 'red' }
+                      }
+                    >
                       One lowercase letter
                     </small>
                   </div>
 
                   <div>
-                    <small style={hasUpperChar ? { color: "green" } : { color: "red" }}>
+                    <small
+                      style={
+                        hasUpperChar ? { color: 'green' } : { color: 'red' }
+                      }
+                    >
                       One uppercase letter
                     </small>
                   </div>
 
                   <div>
                     <small
-                      style={hasSpecialChar ? { color: "green" } : { color: "red" }}
+                      style={
+                        hasSpecialChar ? { color: 'green' } : { color: 'red' }
+                      }
                     >
                       One special character
                     </small>
                   </div>
 
                   <div>
-                    <small style={hasNumber ? { color: "green" } : { color: "red" }}>
+                    <small
+                      style={hasNumber ? { color: 'green' } : { color: 'red' }}
+                    >
                       One number
                     </small>
                   </div>
@@ -274,30 +315,32 @@ const handleLogin = async (googleData) => {
 
               <TextField
                 value={cpassword}
-                margin="normal"
+                margin='normal'
                 required
                 fullWidth
-                name="cpassword"
-                label="Confirm Password"
-                type="password"
-                id="cpassword"
-                autoComplete="current-password"
+                name='cpassword'
+                label='Confirm Password'
+                type='password'
+                id='cpassword'
+                autoComplete='current-password'
                 onChange={(e) => setCPassword(e.target.value)}
               />
               {password && cpassword && (
-                <FormHelperText className="ml-1 mt-1">
+                <FormHelperText className='ml-1 mt-1'>
                   {password === cpassword ? (
                     <span style={{ color: 'green' }}>Password does match</span>
                   ) : (
-                    <span style={{ color: 'red' }}>Password does not match</span>
+                    <span style={{ color: 'red' }}>
+                      Password does not match
+                    </span>
                   )}
                 </FormHelperText>
               )}
 
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
+                variant='contained'
                 sx={{ mt: 3, mb: 2 }}
                 onClick={handleSubmit}
                 disabled={
@@ -305,7 +348,7 @@ const handleLogin = async (googleData) => {
                   !email ||
                   !password ||
                   !cpassword ||
-                  !(cpassword == password) ||
+                  !(cpassword === password) ||
                   !hasSixChar ||
                   !hasLowerChar ||
                   !hasUpperChar ||
@@ -313,20 +356,27 @@ const handleLogin = async (googleData) => {
                   !hasNumber ||
                   !hasEmail ||
                   !hasPhoneValid ||
-                  !otp 
+                  !otp
                 }
               >
                 Sign Up
               </Button>
 
-              <Grid  >
-                <Link href="#" variant="body2" align="center" sx={{ display: "block", mt: 1 }} onClick={handleAction}>
-                  {"Already have an account? Login"}
+              <Grid>
+                <Link
+                  href='#'
+                  variant='body2'
+                  align='center'
+                  sx={{ display: 'block', mt: 1 }}
+                  onClick={handleAction}
+                >
+                  {'Already have an account? Login'}
                 </Link>
               </Grid>
             </Box>
           </Box>
         </Container>
-      </ThemeProvider></>
+      </ThemeProvider>
+    </>
   );
 }

@@ -55,9 +55,11 @@ export default function Login(props) {
     //   })
     // })
     const data = { email, password }
-    axios.post(`${serverUrl}/login`, data).then((res) => {
-       if (res.data.user) {
 
+    axios.post(`${serverUrl}/login`, data,{withCredentials:true}).then((res) => {
+      console.log(res.request.status);
+       if (res.request.status == 200) {
+ 
         localStorage.setItem('Usertoken', res.data.user)
         // toast("Login  Success ! ",{autoClose:800})
         // console.log(data);
@@ -66,11 +68,15 @@ export default function Login(props) {
         // navigate('/')
         // window.location.href='/dashboard'
 
-      } else {
+      } else if(res.request.status == 401) {
         setError("email or password is incorrect")
         // alert('PLease check your username and password')
       }
     }).catch((err) => {
+      if(err.request.status){
+        setError("email or password is incorrect")
+
+      }
       console.log(err);
     })
   };
@@ -99,7 +105,7 @@ export default function Login(props) {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <small>{error}</small>
+          <small style={{color:"red"}}>{error}</small>
           <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
             <TextField
             value={email}

@@ -9,6 +9,7 @@ const ObjectId = mongoose.Types.ObjectId
     email :{type : String , required : true,unique : true},
     phone : {type : Number ,required : true},
     password : { type : String , required : true},
+    refreshToken :{type : String }
  },
 {
     collection : 'user'
