@@ -29,36 +29,43 @@ export const generateAccessToken = (user) => {
 
 export const newAccessToken = asyncHandler(async (req, res, next) => {
   const refreshToken = req.cookies.refreshToken;
-  console.log('refreshtokennnnnnnnnnnnnnnnn');
-  if (!refreshToken) next(createError(400, 'Not Found'));
-  const user = await User.findOne({
-    _id: ObjectId(req.cookies.userId),
-    refreshToken: refreshToken,
-  });
-  if (user) {
-    jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_KEY, (err, user) => {
-      if (err){
-        res.clearCookie('refreshToken')
-        createError(403, 'Invalid Refresh Token');
-      }
-
-      const userDetails = { id: user._id, name: user.name, email: user.email };
-      const accessToken = generateAccessToken(userDetails);
-      console.log('-------------------3948983', accessToken);
-
-      res.cookie('accessToken', accessToken, { maxAge: 90000, httpOnly: true });
-      return res.status(200).json({ message: 'Success' });
+  if (!refreshToken){
+    const res = await User.updateOne( 
+      { _id: ObjectId(req.cookies.userId) },
+      { $set: { refreshToken: null } }
+    );
+    next(createError(400, 'Not Found'));
+  }else{
+    const user = await User.findOne({
+      _id: ObjectId(req.cookies.userId),
+      refreshToken: refreshToken,
     });
-  } else {
-    createError(400, 'Not Found');
+    if (user) {
+      jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_KEY, async(err, user) => {
+        if (err){
+          res.clearCookie('refreshToken')
+          console.log('refreshtokennnnnnnnnnnnnnnnn');
+          const response = await User.updateOne( 
+            { _id: ObjectId(req.cookies.userId) },
+            { $set: { refreshToken: null } }
+          );
+          createError(403, 'Invalid Refresh Token');
+        }
+  
+        const userDetails = { id: user._id, name: user.name, email: user.email };
+        const accessToken = generateAccessToken(userDetails);
+        console.log('-------------------3948983', accessToken);
+  
+        res.cookie('accessToken', accessToken, { maxAge: 90000, httpOnly: true });
+        return res.status(200).json({ message: 'Success' });
+      });
+    } else {
+      next(createError(400, 'Not Found'))
+    }
   }
+ 
 });
 
-export const deleteToken = asyncHandler(async (req, res, next) => {
-  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
-  res.sendStatus(204);
-  const response = await User.updateOne(
-    { _id: ObjectId(req.cookies.userId) },
-    { $set: { refreshToken: null } }
-  );
-});
+// export const deleteToken = asyncHandler(async (req, res, next) => {
+   
+// });

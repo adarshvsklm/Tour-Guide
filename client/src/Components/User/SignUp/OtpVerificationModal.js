@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Otp from './otp'; 
+import axios from 'axios';
+import { serverUrl } from '../../../serverUrl';
 
 const style = {
   position: 'absolute',
@@ -26,6 +28,14 @@ export default function Verification(props) {
   const handleOtp = (otpNumber)=>{
     props.saveOtp(otpNumber)
   }
+
+
+  React.useEffect(async()=>{
+    console.log("-----------");
+    // const response= await axios.post(`${serverUrl}/sendOtp`,{phoneNumber : props.ph,email:props.email},{withCredentials:true})
+  
+  })
+
 
   return (
     <div>

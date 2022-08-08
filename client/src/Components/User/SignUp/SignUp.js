@@ -126,10 +126,21 @@ export default function SignUp(props) {
     console.log(result);
   };
 
+  const sentOtp = async()=>{ 
+    try{
+      const response= await axios.post(`${serverUrl}/sendOtp`,{phoneNumber ,email },{withCredentials:true})
+    setOtpModal(true); 
+    }catch(err){
+      
+    }
+    
+
+  }
+  
   return (
     <>
       {otpModal ? (
-        <Verification onChange={handleOtpModal} saveOtp={handleOtp} />
+        <Verification onChange={handleOtpModal} saveOtp={handleOtp} ph={phoneNumber} email={email}/> 
       ) : (
         ''
       )}
@@ -243,7 +254,8 @@ export default function SignUp(props) {
               )}
               <Link
                 onClick={() => {
-                  setOtpModal(true);
+                  sentOtp()
+                  
                 }}
                 style={{ float: 'right' }}
                 variant='body2'

@@ -8,6 +8,8 @@ import { generateAccessToken } from './AuthenticateToken.js';
 import asyncHandler from 'express-async-handler'
 import { createError } from '../../createError.js';
 
+
+
 dotenv.config();
 
 export default {
@@ -67,7 +69,8 @@ signUp : asyncHandler(async(req,res,next)=>{
     console.log(req.body);  
   },
   test:(req,res)=>{
-    // console.log(984758347583459873947598347983479837);
+    console.log("984758347583459873947598347983479837 testtttttttt");
     // console.log(req.cookies);
-    }
+    },
+    
 };
