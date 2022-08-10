@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -25,8 +25,8 @@ import { GOOGLE_CLIENT_ID } from '../../../config';
 // import GOOGLE_CLIENT_ID from '../../../config'
 import GoogleLogin from 'react-google-login';
 import { useCookies } from 'react-cookie';
-import { gapi } from "gapi-script";
- 
+import { gapi } from 'gapi-script';
+
 const theme = createTheme();
 
 export default function SignUp(props) {
@@ -35,7 +35,7 @@ export default function SignUp(props) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [cpassword, setCPassword] = useState('');
-  const [error,setError] = useState('')
+  const [error, setError] = useState('');
 
   const [otpModal, setOtpModal] = useState(false);
   const [otp, setOtp] = useState(null);
@@ -56,11 +56,11 @@ export default function SignUp(props) {
     axios
       .post(`${serverUrl}/signup`, data)
       .then((res) => {
-         props.onChange('signup');
+        props.onChange('signup');
       })
       .catch((err) => {
-         if(err.request.status == 409){
-          setError("An account with this email already exists")
+        if (err.request.status == 409) {
+          setError('An account with this email already exists');
         }
       });
   };
@@ -82,9 +82,10 @@ export default function SignUp(props) {
   let hasNumber = /(.*[0-9].*)/.test(password);
   let hasSpecialChar = /(.*[^a-zA-Z0-9].*)/.test(password);
   //email validation
-  const hasEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(
-    email
-  );
+  const hasEmail =
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(
+      email
+    );
 
   // google
 
@@ -102,8 +103,8 @@ export default function SignUp(props) {
           token: googleData.tokenId,
         },
       });
-       setSignupData(res);
-      
+      setSignupData(res);
+
       setCookies('signupData', { login: true }, { path: '/' });
     } catch (err) {
       // handleClose();
@@ -111,36 +112,44 @@ export default function SignUp(props) {
       // props.setUserLogin(true);
     }
   };
-  useEffect(() => {
-    function start() {
-      gapi.auth2.init({
-        client_id: GOOGLE_CLIENT_ID,
-        scope: 'email',
-      });
-    }
+  // useEffect(() => {
+  //   function start() {
+  //     gapi.auth2.init({
+  //       client_id: GOOGLE_CLIENT_ID,
+  //       scope: 'email',
+  //     });
+  //   }
 
-    gapi.load('client:auth2', start);
-  }, []);
+  //   gapi.load('client:auth2', start);
+  // }, []);
 
   const handleFailure = (result) => {
     console.log(result);
   };
 
-  const sentOtp = async()=>{ 
-    try{
-      const response= await axios.post(`${serverUrl}/sendOtp`,{phoneNumber ,email },{withCredentials:true})
-    setOtpModal(true); 
-    }catch(err){
-      
+  const sentOtp = async () => {
+    try {
+      const response = await axios.post(
+        `${serverUrl}/sendOtp`,
+        { phoneNumber, email },
+        { withCredentials: true }
+      );
+      console.log(response);
+      setOtpModal(true);
+    } catch (err) {
+      console.log(err);
     }
-    
+  };
 
-  }
-  
   return (
     <>
       {otpModal ? (
-        <Verification onChange={handleOtpModal} saveOtp={handleOtp} ph={phoneNumber} email={email}/> 
+        <Verification
+          onChange={handleOtpModal}
+          saveOtp={handleOtp}
+          MobileNumber={phoneNumber}
+          email={email}
+        />
       ) : (
         ''
       )}
@@ -177,7 +186,7 @@ export default function SignUp(props) {
               noValidate
               sx={{ mt: 1 }}
             >
-              <small style={{color:"red"}}>{error}</small>
+              <small style={{ color: 'red' }}>{error}</small>
               <TextField
                 value={name}
                 required
@@ -223,6 +232,7 @@ export default function SignUp(props) {
                   <small style={{ color: 'red' }}>Enter a valid Email</small>
                 ))}
               <TextField
+                disabled={otp}
                 value={phoneNumber}
                 margin='normal'
                 required
@@ -252,17 +262,21 @@ export default function SignUp(props) {
                   )}
                 </small>
               )}
-              <Link
-                onClick={() => {
-                  sentOtp()
-                  
-                }}
-                style={{ float: 'right' }}
-                variant='body2'
-                href='#'
-              >
-                Verify Phone Number
-              </Link>
+
+              {hasPhoneValid && !otp? (
+                <Link
+                  onClick={sentOtp}
+                  style={{ float: 'right' }}
+                  variant='body2'
+                  href='#'
+                >
+                  Verify Phone Number
+                </Link>
+              ) : (
+                ''
+              )}
+              {otp?
+              <small style={{ float: 'right' ,color:'green'}}>OTP VERIFIED</small> :''}
               <TextField
                 value={password}
                 margin='normal'

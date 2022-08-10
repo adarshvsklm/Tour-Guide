@@ -23,9 +23,13 @@ export const AuthenticateToken = (req, res, next) => {
   });
 };
 
+
+
 export const generateAccessToken = (user) => {
   return jwt.sign({ user }, process.env.JWT_ACCESS_KEY, { expiresIn: '1m' });
 };
+
+
 
 export const newAccessToken = asyncHandler(async (req, res, next) => {
   const refreshToken = req.cookies.refreshToken;

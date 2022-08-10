@@ -30,11 +30,7 @@ export default function Verification(props) {
   }
 
 
-  React.useEffect(async()=>{
-    console.log("-----------");
-    // const response= await axios.post(`${serverUrl}/sendOtp`,{phoneNumber : props.ph,email:props.email},{withCredentials:true})
   
-  })
 
 
   return (
@@ -50,7 +46,7 @@ export default function Verification(props) {
           <Typography id="modal-modal-title" variant="h6" component="h2">
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 ,me:4}}>
-             <Otp onChange={handleOtp} />  
+             <Otp onChange={handleOtp} MobileNumber={props.MobileNumber} closeOtpModal={handleClose} />  
            </Typography>
         </Box>
       </Modal>
