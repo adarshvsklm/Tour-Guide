@@ -7,6 +7,7 @@ import cors from 'cors'
 
 import userRouter from './Routes/user.js'
 import adminRouter from './Routes/admin.js'
+import hotelRouter from './Routes/hotel.js'
 
 import cookieParser from 'cookie-parser'
 
@@ -37,6 +38,7 @@ app.use(cookieParser())
 
 app.use('/', userRouter);  
 app.use('/admin',adminRouter)
+app.use('/hotel',hotelRouter)
 
 
 
