@@ -72,5 +72,12 @@ signUp : asyncHandler(async(req,res,next)=>{
     console.log("984758347583459873947598347983479837 testtttttttt");
     // console.log(req.cookies);
     },
+    logout :asyncHandler((req,res,next)=>{
+      res.clearCookie('userId')
+      res.clearCookie('refreshToken') 
+      res.clearCookie('accessToken') 
+      res.status(200).json({message : "Success"})
+      res.end()
+    })
     
 };

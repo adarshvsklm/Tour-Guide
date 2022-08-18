@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Drawer } from '@mui/material';
+import { makeStyles } from '@material-ui/styles';
 
 import AuthModal from '../AuthModal/AuthModal';
 import axios from 'axios';
@@ -20,15 +21,39 @@ import { serverUrl } from '../../../serverUrl';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
+const useStyles = makeStyles((theme) => ({
+  appbarTitle: {
+    flexGrow: '1',
+  },
+  appbarWrapper:{
+    width : '80%',
+    margin :'0 auto'
+  },
+  appbar : {
+    fontFamily : 'Nunito' 
+  },
+  colorText :{
+    color : '#5AFF3D',
+  }
+}));
+
 const Navbar = () => {
+  const classes = useStyles();
   const [isLogin, setIsLogin] = React.useState('');
   let token = localStorage.getItem('User');
 
   const handleLogin = () => {
-    console.log(8374344,'handle login');
+    console.log(8374344, 'handle login');
     if (token) {
-      localStorage.removeItem('User');
-      setAnchorElNav(null);
+      axios
+        .get(`${serverUrl}/logout`, { withCredentials: true })
+        .then(() => {
+          localStorage.removeItem('User');
+          setAnchorElNav(null);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       console.log(87654323456789);
       let token = localStorage.getItem('User');
@@ -84,7 +109,7 @@ const Navbar = () => {
             withCredentials: true,
           });
 
-          alert("posts")
+          alert('posts');
         } catch (err2) {
           console.log(843748743);
           console.log(err2);
@@ -95,16 +120,33 @@ const Navbar = () => {
       }
       console.log(err, 5654);
     }
-  
   };
 
   return (
     <>
-      <AppBar position='static' style={{ backgroundColor: '#693585' }}>
+    <div style={{height:'0px'}}>
+    {openModal ? (
+        <AuthModal
+          onChange={handleClose}
+          action='login'
+          onAuthChange={handleLogin}
+        />
+      ) : (
+        ''
+      )}
+      {openSignUp ? <AuthModal onChange={handleClose} action='signup' /> : ''}
+    </div>
+      <AppBar
+      className={classes.appbar}
+        position='static'
+        style={{ background: 'none', position: 'fixed' }}
+        elevation={0}
+      >
         <Container maxWidth='xl'>
-          <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Toolbar disableGutters className={classes.appbarWrapper}>
+            {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
             <Typography
+              className={classes.appbarTitle}
               variant='h6'
               noWrap
               component='a'
@@ -112,14 +154,15 @@ const Navbar = () => {
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
-                fontFamily: 'monospace',
+                // fontFamily: 'monospace',
                 fontWeight: 700,
-                letterSpacing: '.3rem',
+                // letterSpacing: '.3rem',
                 color: 'inherit',
-                textDecoration: 'none',
+                // textDecoration: 'none',
               }}
             >
-              LOGO
+              <span>My</span>
+              <span className={classes.colorText}>Space</span>
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -156,7 +199,7 @@ const Navbar = () => {
                 }}
               >
                 {/* pages */}
-                <Drawer
+                {/* <Drawer
                   anchor='top'
                   open={isDrawerOpen}
                   onClose={() => {
@@ -168,16 +211,20 @@ const Navbar = () => {
                       <Typography textAlign='center'>{page}</Typography>
                     </MenuItem>
                   ))}
-                </Drawer>
+                </Drawer> */}
 
-                {pages.map((page) => (
+                {/* {pages.map((page) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
                     <Typography textAlign='center'>{page}</Typography>
                   </MenuItem>
-                ))}
+                ))} */}
+
+                <MenuItem key='Trips' onClick={handleCloseNavMenu}>
+                  <Typography textAlign='center'>Trips</Typography>
+                </MenuItem>
               </Menu>
             </Box>
-            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+            {/* <AdbIcon style={{margin :'0 auto'}} sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 ,align:'center'}} /> */}
             <Typography
               variant='h5'
               noWrap
@@ -187,26 +234,25 @@ const Navbar = () => {
                 mr: 2,
                 display: { xs: 'flex', md: 'none' },
                 flexGrow: 1,
-                fontFamily: 'monospace',
+                // fontFamily: 'monospace',
                 fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
+                 color: 'inherit',
+               }}
             >
-              LOGO
+             <span>My</span>
+              <span className={classes.colorText}>Space</span>
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  sx={{ my: 2, color: 'inherit', display: 'block' }}
                 >
                   {page}
                 </Button>
               ))}
-            </Box>
+            </Box> */}
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title='Open settings'>
@@ -288,16 +334,7 @@ const Navbar = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      {openModal ? (
-        <AuthModal
-          onChange={handleClose}
-          action='login'
-          onAuthChange={handleLogin}
-        />
-      ) : (
-        ''
-      )}
-      {openSignUp ? <AuthModal onChange={handleClose} action='signup' /> : ''}
+      
     </>
   );
 };

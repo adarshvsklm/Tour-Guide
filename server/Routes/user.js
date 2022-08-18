@@ -14,5 +14,6 @@ router.get('/token',newAccessToken)
 router.post('/sendOtp',sendOtp)
 router.post('/verifyOtp',Verifyotp)
 // router.get('/delete',deleteToken)
+router.get('/logout',Authentication.logout)
 
 export default  router;        

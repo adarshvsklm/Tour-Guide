@@ -11,7 +11,7 @@ dotenv.config();
 export const AuthenticateToken = (req, res, next) => {
   const accessToken = req.cookies.accessToken;
   console.log(accessToken, 8734782948234);
-
+ 
   if (accessToken == null) return res.status(400).json({ message: 'No token' });
 
   jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (err, user) => {
@@ -25,8 +25,8 @@ export const AuthenticateToken = (req, res, next) => {
 
 
 
-export const generateAccessToken = (user) => {
-  return jwt.sign({ user }, process.env.JWT_ACCESS_KEY, { expiresIn: '1m' });
+export const generateAccessToken = (details) => {
+  return jwt.sign({ details }, process.env.JWT_ACCESS_KEY, { expiresIn: '1m' });
 };
 
 
