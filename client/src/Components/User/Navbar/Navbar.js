@@ -19,7 +19,11 @@ import AuthModal from '../AuthModal/AuthModal';
 import axios from 'axios';
 import { serverUrl } from '../../../serverUrl';
 
+
+
 const pages = ['Products', 'Pricing', 'Blog'];
+
+
 
 const useStyles = makeStyles((theme) => ({
   appbarTitle: {
@@ -36,9 +40,12 @@ const useStyles = makeStyles((theme) => ({
     color : '#5AFF3D',
   }
 }));
+const Navbar = (props) => {
 
-const Navbar = () => {
   const classes = useStyles();
+
+
+  
   const [isLogin, setIsLogin] = React.useState('');
   let token = localStorage.getItem('User');
 
@@ -122,9 +129,12 @@ const Navbar = () => {
     }
   };
 
+  let bgColor 
+  props.bgColor ? bgColor =props.bgColor :bgColor='none'
+
   return (
     <>
-    <div style={{height:'0px'}}>
+    <div style={{height:'0px' ,width:'100%'}}>
     {openModal ? (
         <AuthModal
           onChange={handleClose}
@@ -137,9 +147,10 @@ const Navbar = () => {
       {openSignUp ? <AuthModal onChange={handleClose} action='signup' /> : ''}
     </div>
       <AppBar
+      sx={{mb:2}}
       className={classes.appbar}
         position='static'
-        style={{ background: 'none', position: 'fixed' }}
+        style={{ background:bgColor, position: 'fixed' }}
         elevation={0}
       >
         <Container maxWidth='xl'>
@@ -151,18 +162,22 @@ const Navbar = () => {
               noWrap
               component='a'
               href='/'
+              // style={{
+              //   backgroundColor : 'rgba(0, 0, 0, 0.27)'
+              // }}
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
                 // fontFamily: 'monospace',
                 fontWeight: 700,
                 // letterSpacing: '.3rem',
-                color: 'inherit',
+                color: 'inherit', 
+                
                 // textDecoration: 'none',
               }}
             >
-              <span>My</span>
-              <span className={classes.colorText}>Space</span>
+              <span sx={{boxShadow: 4}}>My</span>
+              <span sx={{boxShadow: 4}} className={classes.colorText}>Space</span>
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -226,7 +241,7 @@ const Navbar = () => {
             </Box>
             {/* <AdbIcon style={{margin :'0 auto'}} sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 ,align:'center'}} /> */}
             <Typography
-              variant='h5'
+              variant='h7'
               noWrap
               component='a'
               href=''
