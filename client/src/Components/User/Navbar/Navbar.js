@@ -34,7 +34,10 @@ const useStyles = makeStyles((theme) => ({
     margin :'0 auto'
   },
   appbar : {
-    fontFamily : 'Nunito' 
+    fontFamily : 'Nunito' ,
+    position:"fixed",
+     zIndex :0,
+    // height :"100px"
   },
   colorText :{
     color : '#5AFF3D',
@@ -118,8 +121,7 @@ const Navbar = (props) => {
 
           alert('posts');
         } catch (err2) {
-          console.log(843748743);
-          console.log(err2);
+           console.log(err2);
           token = null;
           localStorage.removeItem('User');
           setAnchorElNav(null);
@@ -147,14 +149,18 @@ const Navbar = (props) => {
       {openSignUp ? <AuthModal onChange={handleClose} action='signup' /> : ''}
     </div>
       <AppBar
-      sx={{mb:2}}
-      className={classes.appbar}
-        position='static'
-        style={{ background:bgColor, position: 'fixed' }}
+       sx={{mb:2}}
+       className={classes.appbar}
+        position='sticky'
+        style={{ background:bgColor, position: 'fixed' ,height:props.height }}
         elevation={0}
       >
-        <Container maxWidth='xl'>
-          <Toolbar disableGutters className={classes.appbarWrapper}>
+        <Container
+        
+         maxWidth='xl'>
+          <Toolbar
+          style={{zIndex: 10}}
+           disableGutters className={classes.appbarWrapper}>
             {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
             <Typography
               className={classes.appbarTitle}

@@ -62,7 +62,7 @@ export default function AdminLogin() {
       console.log(res.request.status);
        if (res.request.status == 200) {
  
-        localStorage.setItem('Hotel', res.data.admin)
+        localStorage.setItem('HotelOwner', res.data.HotelOwner)
         // toast("Login  Success ! ",{autoClose:800})
         // console.log(data);
         setError(null)

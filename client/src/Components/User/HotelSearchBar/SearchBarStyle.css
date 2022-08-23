@@ -1,0 +1,14 @@
+.headerSearch{
+     /* margin-top: 270px; */
+}
+.sticky{
+   position: sticky;
+  top: 0;
+}
+.text{
+    /* min-height: 100vh;
+    display : flex;
+    margin-top:50px;
+    justify-content: 'center';
+    align-items: 'center' */
+}

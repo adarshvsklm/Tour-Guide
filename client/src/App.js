@@ -8,6 +8,9 @@ import ViewUsers from './Pages/Admin/ViewUsers';
 import HotelLoginPage from './Pages/Hotels/HotelLoginPage';
 import HotelSignUpPage from './Pages/Hotels/HotelSignUpPage';
 import DestinationDetails from './Pages/User/DestinationDetails';
+import AttractionDetails from './Pages/User/AttractionDetails';
+import DashBoard from './Pages/Hotels/DashBoard';
+import HotelBookingHomePage from './Pages/User/HotelBookingHomePage';
 // import { ToastContainer } from 'react-toastify'
 
 function App() {
@@ -18,6 +21,8 @@ function App() {
           <Route path='/'>
             <Route index element={<UserHome />} />
             <Route path='destination' element={<DestinationDetails />} />
+            <Route path='attraction' element={<AttractionDetails />} />
+            <Route path='hotels' element={<HotelBookingHomePage />} />
           </Route>
         </Routes>
         <Routes>
@@ -29,6 +34,7 @@ function App() {
         </Routes>
         <Routes>
           <Route path='/hotel'>
+            <Route index element={<DashBoard />} />
             <Route path='login' element={<HotelLoginPage />} />
             <Route path='signup' element={<HotelSignUpPage />} />
           </Route>

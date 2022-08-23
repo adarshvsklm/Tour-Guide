@@ -20,11 +20,7 @@ import Verification from './OtpVerificationModal';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 // import InputAdornment from '@mui/material/InputAdornment';
 
-// import { GOOGLE_CLIENT_ID } from '../../../config';
-import { GOOGLE_CLIENT_ID } from '../../../config';
-// import GOOGLE_CLIENT_ID from '../../../config'
-import GoogleLogin from 'react-google-login';
-import { useCookies } from 'react-cookie';
+    import { useCookies } from 'react-cookie';
 import { gapi } from 'gapi-script';
 import { useNavigate } from 'react-router-dom';
 
@@ -92,41 +88,13 @@ export default function HotelSignUp(props) {
       email
     );
 
-  // google
-
+ 
   const [cookies, setCookies] = useCookies();
   const [_, setSignupData] = useState(
     cookies.signupData ? cookies.signupData : null
   );
 
-  const handleLogin = async (googleData) => {
-    try {
-      const res = await axios({
-        method: 'post',
-        url: 'http://localhost:9000/google_signUp',
-        data: {
-          token: googleData.tokenId,
-        },
-      });
-      setSignupData(res);
-
-      setCookies('signupData', { login: true }, { path: '/' });
-    } catch (err) {
-      // handleClose();
-      setCookies('signupData', { login: true }, { path: '/' });
-      // props.setUserLogin(true);
-    }
-  };
-  // useEffect(() => {
-  //   function start() {
-  //     gapi.auth2.init({
-  //       client_id: GOOGLE_CLIENT_ID,
-  //       scope: 'email',
-  //     });
-  //   }
-
-  //   gapi.load('client:auth2', start);
-  // }, []);
+  
 
   const handleFailure = (result) => {
     console.log(result);
@@ -169,16 +137,7 @@ export default function HotelSignUp(props) {
               alignItems: 'center',
             }}
           >
-            <div className='googleSignup'>
-              <GoogleLogin
-                className='googleButton'
-                clientId={GOOGLE_CLIENT_ID}
-                buttonText='Signup with Google'
-                onSuccess={handleLogin}
-                onFailure={handleFailure}
-                cookiePolicy='single_host_origin'
-              ></GoogleLogin>
-            </div>
+            
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>

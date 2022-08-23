@@ -33,37 +33,38 @@ signUp : asyncHandler(async(req,res,next)=>{
 }),
 
   login: asyncHandler( async (req, res,next) => {
-    const user = await User.findOne({
+    console.log(req.body);
+    const hotel = await Hotel.findOne({
       email: req.body.email,
     });
-    console.log(user);
-    if (!user) {
+    console.log(hotel);
+    if (!hotel) {
       return next(createError(401,'invalid credentials'))
     }
 
-    const isUserValid = await bcrypt.compare(req.body.password, user.password);
+    const isHotelValid = await bcrypt.compare(req.body.password, hotel.password);
      
-    if (isUserValid) {
+    if (isHotelValid) {
         console.log(9348534);
  
 
-      const userDetails = { id: user._id, name: user.name, email: user.email };
+      const hotelDetails = { id: hotel._id, name: hotel.name, email: hotel.email };
 
-      const accessToken = generateAccessToken(userDetails);
+      const accessToken = generateAccessToken(hotelDetails);
       
-      const refreshToken = jwt.sign(userDetails, process.env.JWT_REFRESH_TOKEN_KEY);
+      const refreshToken = jwt.sign(hotelDetails, process.env.JWT_REFRESH_TOKEN_KEY);
   
       await User.updateOne(
-        { _id: user._id },
+        { _id: hotel._id },
         {
           $set: { refreshToken: refreshToken },
         }
       );
-       res.cookie('accessToken', accessToken, {maxAge:60,httpOnly: true });
-       res.cookie('refreshToken', refreshToken, {httpOnly: true });
-       res.cookie('userId', user._id, {httpOnly: true });
+       res.cookie('accessToken-hotel', accessToken, {maxAge:60,httpOnly: true });
+       res.cookie('refreshToken-hotel', refreshToken, {httpOnly: true });
+       res.cookie('hotelId', hotel._id, {httpOnly: true });
 
-      return res.status(200).json({ message: 'Success' ,user : user.name});
+      return res.status(200).json({ message: 'Success' ,hotel : hotel.name});
     }
   }),
 
