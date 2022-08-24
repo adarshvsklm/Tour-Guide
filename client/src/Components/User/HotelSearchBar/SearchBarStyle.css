@@ -1,14 +1,20 @@
 .headerSearch{
-     /* margin-top: 270px; */
-}
+  /* height: 30px; */
+  background-color: white;
+  /* border: 3px solid #febb02; */
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  /* 
+  padding: 10px 0px;
+  border-radius: 5px;
+  position: absolute;
+   width: 100%;
+  max-width: 1024px; */
+ }
 .sticky{
    position: sticky;
   top: 0;
 }
-.text{
-    /* min-height: 100vh;
-    display : flex;
-    margin-top:50px;
-    justify-content: 'center';
-    align-items: 'center' */
-}
+ 
