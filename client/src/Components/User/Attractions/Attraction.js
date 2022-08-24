@@ -1,11 +1,11 @@
-import { makeStyles } from '@material-ui/core';
+// import { makeStyles } from '@material-ui/core';
+import {makeStyles} from '@mui/styles'
 import React from 'react';
 import MainCarousel from '../../Common/MainCarousel';
 import Paragraph from '../../Common/Paragraph';
 import SubCarousel from '../../Common/SubCarousel';
 import Text from '../../Common/Text';
- 
-const useStyles = makeStyles((theme) => ({
+ const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: '200px',
     display: 'flex',

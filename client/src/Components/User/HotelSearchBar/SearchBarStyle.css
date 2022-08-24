@@ -17,4 +17,8 @@
    position: sticky;
   top: 0;
 }
+  
+  ::-webkit-DesktopDatePicker-placeholder { /* Edge */
+    color: red;
+  }
  

@@ -1,6 +1,5 @@
-import { makeStyles } from '@mui/styles'
-import { fontFamily } from '@mui/system'
-import React from 'react'
+import {makeStyles} from '@mui/styles'
+ import React from 'react'
 
 const useStyles= makeStyles((theme)=>({
   textStyle:{

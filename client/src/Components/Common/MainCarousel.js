@@ -1,21 +1,22 @@
 import React, { useRef, useState } from 'react';
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
-
+// import { Swiper, SwiperSlide } from 'swiper/react';
+ 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+// import 'swiper/scss';
+// import 'swiper/css/navigation';
+// import 'swiper/css/pagination';
 
 // import required modules
 import { Autoplay, Navigation, Pagination, Mousewheel, Keyboard } from 'swiper';
-import { makeStyles } from '@material-ui/styles';
-
+import {makeStyles} from '@mui/styles'
+import { Swiper, SwiperSlide } from 'swiper/react';
+ 
 const useStyles = makeStyles((theme) => ({
   image: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center', 
     width: '60%',
     margin: '0 auto',
   },

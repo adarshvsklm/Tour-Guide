@@ -1,6 +1,7 @@
 import { createTheme, ThemeProvider, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import React from 'react';
+import {makeStyles} from '@mui/styles'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {

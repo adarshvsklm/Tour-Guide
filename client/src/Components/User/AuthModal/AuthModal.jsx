@@ -1,18 +1,11 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import Card from '@mui/material/Card';
 import Login from '../Login/Login';
 import SignUp from '../SignUp/SignUp';
 import { useState } from 'react';
+import { Box, Button, Card, makeStyles, Modal, Typography } from '@mui/material';
 
-
-//  import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-// import { makeStyles } from "@mui/styles";
-import { makeStyles } from "@material-ui/core/styles";
+ 
 
 
 

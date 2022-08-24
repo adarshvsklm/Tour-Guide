@@ -1,31 +1,30 @@
 import { useState, useEffect } from 'react';
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
+// import Avatar from '@mui/material/Avatar';
+// import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 // import FormControlLabel from '@mui/material/FormControlLabel';
 // import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+// import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { FormHelperText } from '@mui/material';
+// import { createTheme, ThemeProvider } from '@mui/material/styles';
+// import { Button, FormHelperText } from '@mui/material';
 import axios from 'axios';
 import { serverUrl } from '../../../serverUrl';
 import Verification from './OtpVerificationModal';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+ 
 // import InputAdornment from '@mui/material/InputAdornment';
 
 // import { GOOGLE_CLIENT_ID } from '../../../config';
 import { GOOGLE_CLIENT_ID } from '../../../config';
 // import GOOGLE_CLIENT_ID from '../../../config'
-import GoogleLogin from 'react-google-login';
-import { useCookies } from 'react-cookie';
-import { gapi } from 'gapi-script';
+ import { useCookies } from 'react-cookie';
+ import { Box, Button, Container, FormHelperText, ThemeProvider, Typography } from '@mui/material';
+import createTheme from '@mui/material/styles/createTheme';
 
 const theme = createTheme();
 
@@ -164,7 +163,7 @@ export default function SignUp(props) {
               alignItems: 'center',
             }}
           >
-            <div className='googleSignup'>
+            {/* <div className='googleSignup'>
               <GoogleLogin
                 className='googleButton'
                 clientId={GOOGLE_CLIENT_ID}
@@ -173,10 +172,10 @@ export default function SignUp(props) {
                 onFailure={handleFailure}
                 cookiePolicy='single_host_origin'
               ></GoogleLogin>
-            </div>
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            </div> */}
+            {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
-            </Avatar>
+            </Avatar> */}
             <Typography component='h1' variant='h5'>
               Sign Up
             </Typography>

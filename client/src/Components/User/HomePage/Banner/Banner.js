@@ -11,8 +11,8 @@
 // export default Banner
 
 // import { makeStyles } from '@mui/material'
-import { makeStyles } from '@material-ui/styles';
-import { Collapse, CssBaseline } from '@mui/material';
+ import { Collapse, CssBaseline } from '@mui/material';
+ import {makeStyles} from '@mui/styles'
 import React, { useEffect, useState } from 'react';
 import MakeAwsomeTrips from '../BannerTexts/MakeAwsomeTrips';
 import SearchBar from '../SearchBar/SearchBar';
