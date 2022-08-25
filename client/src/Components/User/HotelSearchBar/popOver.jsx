@@ -4,31 +4,37 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchData } from '../../../Redux/User/SearchHotelSlice';
+import Counter from '../../Common/Counter';
 
-export default function Popover() {
-
-    const dispatch = useDispatch()
-    const {popOver} = useSelector((state)=>state.SearchHotelSlice)
+export default function PopOver() {
+  const dispatch = useDispatch();
+  const { popOver } = useSelector((state) => state.searchData);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-//   const handleClick = (event) => {
-//     setAnchorEl(event.currentTarget);
-//   };
+  //   const handleClick = (event) => {
+  //     setAnchorEl(event.currentTarget);
+  //   };
 
   const handleClose = () => {
-    dispatch(setSearchData({popOver:null}))
+    dispatch(setSearchData({ popOver: null }));
   };
 
   const open = Boolean(popOver);
-//   const id = open ? 'simple-popover' : undefined;
+  //   const id = open ? 'simple-popover' : undefined;
+
+  // const [data,setData] = React.useState()
+  const searchData= useSelector((state) => state.searchData)
+  const handleData=(data)=>{
+    dispatch(setSearchData({  ...searchData,...data }));
+
+  }
 
   return (
-    <div>
+    <div >
       {/* <Button aria-describedby={id} variant="contained" onClick={handleClick}>
         Open Popover
       </Button> */}
       <Popover
-        id='123'
         open={open}
         anchorEl={popOver}
         onClose={handleClose}
@@ -37,7 +43,35 @@ export default function Popover() {
           horizontal: 'left',
         }}
       >
-        <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+        <div >
+        <table>
+          <tr>
+            <td>
+              <Typography sx={{ p: 2 }}>Rooms</Typography>
+            </td>
+            <td>
+              <Counter item='rooms' setData={handleData}/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Typography sx={{ p: 2 }}>Adults</Typography>
+            </td>
+            <td>
+              <Counter item='adults' setData={handleData}/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Typography sx={{ p: 2 }}>Children</Typography>
+            </td>
+            <td>
+              <Counter item='children' setData={handleData} />
+            </td>
+          </tr>
+        </table>
+         <Button  style={{width: '100%', alignItems: 'center'}} className='mx-auto'> Update</Button>
+        </div>
       </Popover>
     </div>
   );

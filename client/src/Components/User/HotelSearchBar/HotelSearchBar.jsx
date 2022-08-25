@@ -20,6 +20,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { setSearchData } from '../../../Redux/User/SearchHotelSlice';
 import { useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
+import PopOver from './PopOver';
 
 const theme = createTheme();
 const useStyles = makeStyles(() => ({
@@ -46,6 +47,10 @@ const useStyles = makeStyles(() => ({
   },
   datepicker :{
     color: '#5AFF3D',
+  },
+  popover:{
+    width:'100px',
+    position:'fixed'
   }
 }));
 function HotelSearchBar() {
@@ -60,6 +65,7 @@ function HotelSearchBar() {
   const handleClick = (event) => {
     // setAnchorEl(event.currentTarget);
     dispatch(setSearchData({popOver:event.currentTarget}))
+    // dispatch(setSearchData({popOver:'true'}))
   };
 
   const classes = useStyles();
@@ -67,9 +73,10 @@ function HotelSearchBar() {
   return (
     <div>
       <div className={classes.root}>
-      <Button aria-describedby={'123'} variant="contained" onClick={handleClick}>
-        Open Popover
-      </Button>
+      
+      <div className={classes.popover}>
+      <PopOver />
+      </div>
         <LocalizationProvider dateAdapter={AdapterDateFns} >
           <Stack spacing={3} >
             <div className={classes.searchBar}>
@@ -105,7 +112,7 @@ function HotelSearchBar() {
               }}
                />}
             />
-            <TextField  onClick={handleClick} label='Guests' value='1 room,2 adults,0 children'  sx={{
+            <TextField ReadOnly={true}  onClick={handleClick} label='Guests' value='1 room,2 adults,0 children'  sx={{
                 svg: { color },
                 input: { color },
                 label: { color },

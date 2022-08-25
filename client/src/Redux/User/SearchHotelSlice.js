@@ -2,10 +2,11 @@ import { faL } from "@fortawesome/free-solid-svg-icons";
 import { createSlice } from "@reduxjs/toolkit";
 
  const initialState = {
-    rooms: '',
-    adults: '',
-    children: '',
+    rooms: 1,
+    adults: 2,
+    children: 0,
     popOver:false,
+    // Pid:''
  }
 
  export const SearchHotelSlice = createSlice({
@@ -13,12 +14,13 @@ import { createSlice } from "@reduxjs/toolkit";
     initialState,
     reducers: {
         setSearchData:(state,action)=>  {
-            console.log(action);
-            state.rooms = action.rooms
-            state.adults = action.adults
-            state.children = action.children
-            state.popOver = action.popOver
-        }
+            console.log(action.payload)
+             state.rooms = action.payload.rooms ?action.payload.rooms:state.rooms
+            state.adults = action.payload.adults ?action.payload.adults:state.adults
+            state.children = action.payload.children ?action.payload.children:state.children
+            state.popOver = action.payload.popOver ?action.payload.popOver: null
+            // state.Pid = action.payload.Pid ? action.payload.Pid:null
+         }
 
     }
 

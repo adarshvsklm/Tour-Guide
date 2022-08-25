@@ -3,14 +3,15 @@ import React, { useRef, useState } from 'react';
 // import { Swiper, SwiperSlide } from 'swiper/react';
  
 // Import Swiper styles
-// import 'swiper/scss';
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from 'swiper/react';
+// import 'swiper/css';
+import "swiper/swiper.min.css"
+import 'swiper/modules/navigation/navigation.min.css';
+import 'swiper/modules/pagination/pagination';
 
 // import required modules
 import { Autoplay, Navigation, Pagination, Mousewheel, Keyboard } from 'swiper';
 import {makeStyles} from '@mui/styles'
-import { Swiper, SwiperSlide } from 'swiper/react';
  
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -36,7 +37,7 @@ export default function App() {
         className='mySwiper'
         autoplay={{
           delay: 2500,
-          disableOnInteraction: false,
+          disableOnInteraction: true,
         }}
       >
         <SwiperSlide>
@@ -97,3 +98,50 @@ export default function App() {
     </>
   );
 }
+
+
+
+
+
+
+
+
+
+// import React, { useRef, useState } from "react";
+// // Import Swiper React components
+// import { Swiper, SwiperSlide } from "swiper/react";
+ 
+// // Import Swiper styles
+// import "swiper/swiper.min.css";
+// // import "swiper/css/pagination";
+// // import "swiper/css/navigation";
+
+// import "./styles.css";
+
+// // import required modules
+// import { Pagination, Navigation } from "swiper";
+
+// export default function App() {
+//   return (
+//     <>
+//       <Swiper
+//         pagination={{
+//           type: "fraction",
+//         }}
+//         navigation={true}
+//         modules={[Pagination, Navigation]}
+//         className="mySwiper"
+//       >
+//         <SwiperSlide>Slide 1</SwiperSlide>
+//         <SwiperSlide>Slide 2</SwiperSlide>
+//         <SwiperSlide>Slide 3</SwiperSlide>
+//         <SwiperSlide>Slide 4</SwiperSlide>
+//         <SwiperSlide>Slide 5</SwiperSlide>
+//         <SwiperSlide>Slide 6</SwiperSlide>
+//         <SwiperSlide>Slide 7</SwiperSlide>
+//         <SwiperSlide>Slide 8</SwiperSlide>
+//         <SwiperSlide>Slide 9</SwiperSlide>
+//       </Swiper>
+//     </>
+//   );
+// }

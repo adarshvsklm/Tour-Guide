@@ -1,18 +1,16 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import CounterInput from "react-counter-input";
+import React from 'react';
+import CounterInput from 'react-counter-input';
+import { useDispatch } from 'react-redux';
+import { setSearchData } from '../../Redux/User/SearchHotelSlice';
 
-class Counter extends React.Component {
-  render() {
-    return (
-      <CounterInput
-        min={0}
-        max={10}
-        onCountChange={count => console.log(count)}
-      />
-    );
-  }
+export default function Counter({item}) {
+  const dispatch = useDispatch()
+  // dispatch(setSearchData(item:))
+  return (
+    <CounterInput
+      min={0}
+      max={10}
+      onCountChange={(count) => dispatch(setSearchData({rooms:count}))}
+    />
+  );
 }
-
-const rootElement = document.getElementById("root");
-ReactDOM.render(<Counter />, rootElement);

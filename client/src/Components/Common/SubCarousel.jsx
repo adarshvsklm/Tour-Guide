@@ -3,11 +3,9 @@ import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
-// import 'swiper/scss';
-// import 'swiper/css/pagination';
-// import 'swiper/css/navigation';
-
-// import "./styles.css";
+import "swiper/swiper.min.css"
+import 'swiper/modules/navigation/navigation.min.css';
+import 'swiper/modules/pagination/pagination';
 
 // import required modules
 import { Pagination, Navigation } from 'swiper';
@@ -52,6 +50,10 @@ export default function SubCarousel() {
         navigation={true}
         modules={[Pagination, Navigation]}
         className='mySwiper'
+        autoplay={{
+          delay: 200,
+          disableOnInteraction: true,
+        }}
       >
          
         <SwiperSlide>
