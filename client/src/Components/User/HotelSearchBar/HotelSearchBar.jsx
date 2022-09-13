@@ -18,9 +18,11 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { setSearchData } from '../../../Redux/User/SearchHotelSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import PopOver from './PopOver';
+import DropDown from '../../Common/DropDown';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
 const theme = createTheme();
 const useStyles = makeStyles(() => ({
@@ -39,90 +41,113 @@ const useStyles = makeStyles(() => ({
   },
   searchBar: {
     color: '#5AFF3D',
-    display:'flex',
+    display: 'flex',
     justifyContent: 'center',
-    width:'80%',
-    margin:'0 auto',
+    width: '100%',
+    margin: '0 auto',
     alignItems: 'center',
   },
-  datepicker :{
+  datepicker: {
     color: '#5AFF3D',
   },
-  popover:{
-    width:'100px',
-    position:'fixed'
-  }
+  popover: {
+    width: '100px',
+    position: 'fixed',
+  },
 }));
 function HotelSearchBar() {
-  const [value, setValue] = React.useState(new Date() )
+  const [value, setValue] = React.useState(new Date());
+  const { rooms, adults, children, location } = useSelector(
+    (state) => state.searchData
+  );
+
   const handleChange = (newValue) => {
     setValue(newValue);
   };
 
-  const dispatch=useDispatch()
-
+  const dispatch = useDispatch();
 
   const handleClick = (event) => {
     // setAnchorEl(event.currentTarget);
-    dispatch(setSearchData({popOver:event.currentTarget}))
+    dispatch(setSearchData({ popOver: event.currentTarget }));
     // dispatch(setSearchData({popOver:'true'}))
   };
 
   const classes = useStyles();
-  const color = "white";
+  const color = 'white';
   return (
     <div>
       <div className={classes.root}>
-      
-      <div className={classes.popover}>
-      <PopOver />
-      </div>
-        <LocalizationProvider dateAdapter={AdapterDateFns} >
-          <Stack spacing={3} >
+        <div className={classes.popover}>
+          <PopOver />
+        </div>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Stack spacing={3}>
             <div className={classes.searchBar}>
-            <DesktopDatePicker
-             className={[classes.datepicker,'datepickers']}
-              label='Check In'
-              inputFormat='MM/dd/yyyy'
-              value={value}
-              InputProps={{
-                disableUnderline: true
-              }}
-              onChange={handleChange}
-              renderInput={(params) => <TextField {...params} 
-              sx={{
-                svg: { color },
-                input: { color },
-                label: { color },
-                border:{color}
-              }}
-               />}
-            />
-            <DesktopDatePicker
-              label='Check Out'
-              inputFormat='MM/dd/yyyy'
-              value={value}
-              onChange={handleChange}
-              renderInput={(params) => <TextField {...params}
-              sx={{
-                svg: { color },
-                input: { color },
-                label: { color },
-                border:{color}
-              }}
-               />}
-            />
-            <TextField ReadOnly={true}  onClick={handleClick} label='Guests' value='1 room,2 adults,0 children'  sx={{
+              {/* <TextField ReadOnly={true}   label='Location' value={location}  sx={{ 
                 svg: { color },
                 input: { color },
                 label: { color },
                 border:{color}
               }}>
-              dkjdhf
-            </TextField>
+               
+            </TextField> */}
+              <DesktopDatePicker
+                className={[classes.datepicker, 'datepickers']}
+                label='Check In'
+                inputFormat='MM/dd/yyyy'
+                value={value}
+                InputProps={{
+                  disableUnderline: true,
+                }}
+                onChange={handleChange}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    sx={{
+                      svg: { color },
+                      input: { color },
+                      label: { color },
+                      border: { color },
+                    }}
+                  />
+                )}
+              />
+              <DesktopDatePicker
+                label='Check Out'
+                inputFormat='MM/dd/yyyy'
+                value={value}
+                onChange={handleChange}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    sx={{
+                      svg: { color },
+                      input: { color },
+                      label: { color },
+                      border: { color },
+                    }}
+                  />
+                )}
+              />
+              <TextField
+                ReadOnly={true}
+                onClick={handleClick}
+                label='Guests'
+                value={` ${rooms} room,${adults} adults,${children} children`}
+                sx={{
+                  svg: { color },
+                  input: { color },
+                  label: { color },
+                  border: { color },
+                }}
+              ></TextField>
             </div>
           </Stack>
         </LocalizationProvider>
+        
+         {/* <Button variant="outlined" color="success">Submit</Button> */}
+         <SearchOutlinedIcon fontSize='large' style={{ color: 'white' ,margin: "15px" ,border: '1px solid' ,borderColor:'#1D3F76',height: '57px',borderRadius: '5px',width: '57px',   padding:' 5px'}} />
       </div>
       jhdgjhgvj <br />
       jhdgjhgvj <br />

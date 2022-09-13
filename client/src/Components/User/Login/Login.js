@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import axios from 'axios'
 import { serverUrl } from '../../../serverUrl';
+ 
 
 
 function Copyright(props) {
@@ -24,7 +25,7 @@ function Copyright(props) {
       <Link color="inherit" href="https://mui.com/">
         Your Website
       </Link>{' '}
-      {new Date().getFullYear()}
+      {new Date().getFullYear()} 
       {'.'}
     </Typography>
   );
@@ -63,7 +64,8 @@ export default function Login(props) {
         localStorage.setItem('User', res.data.user)
         // toast("Login  Success ! ",{autoClose:800})
         // console.log(data);
-        setError(null)
+         setError(null)
+
         props.closeLogin()
         // navigate('/')
         // window.location.href='/dashboard'

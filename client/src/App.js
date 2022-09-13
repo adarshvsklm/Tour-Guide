@@ -11,18 +11,21 @@ import DestinationDetails from './Pages/User/DestinationDetails';
 import AttractionDetails from './Pages/User/AttractionDetails';
 import DashBoard from './Pages/Hotels/DashBoard';
 import HotelBookingHomePage from './Pages/User/HotelBookingHomePage';
+import CompleteReg from './Pages/Hotels/CompleteReg';
+import ViewRequests from './Pages/Admin/ViewRequests';
 // import { ToastContainer } from 'react-toastify'
 
 function App() {
   return (
     <div>
-      <Router>
+       <Router>
         <Routes>
           <Route path='/'>
             <Route index element={<UserHome />} />
             <Route path='destination' element={<DestinationDetails />} />
             <Route path='attraction' element={<AttractionDetails />} />
             <Route path='hotels' element={<HotelBookingHomePage />} />
+            
           </Route>
         </Routes>
         <Routes>
@@ -30,17 +33,20 @@ function App() {
             <Route index element={<AdminDashboard />} />
             <Route path='login' element={<AdminLogin />} />
             <Route path='users' element={<ViewUsers />} />
+            <Route path='hotels/requests' element={<ViewRequests />} />
           </Route>
         </Routes>
         <Routes>
           <Route path='/hotel'>
             <Route index element={<DashBoard />} />
-            <Route path='login' element={<HotelLoginPage />} />
+            <Route path='dashboard' element={<DashBoard/>} /> 
+            <Route path='login' element={<HotelLoginPage />} /> 
             <Route path='signup' element={<HotelSignUpPage />} />
+            <Route path='completeRegistration' element={<CompleteReg />} />
           </Route>
         </Routes>
       </Router>
-      {/* <ToastContainer /> */}
+      {/* <ToastContainer/ > */}
     </div>
   );
 }

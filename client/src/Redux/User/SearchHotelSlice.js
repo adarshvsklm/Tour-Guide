@@ -6,6 +6,9 @@ import { createSlice } from "@reduxjs/toolkit";
     adults: 2,
     children: 0,
     popOver:false,
+    checkInDate: new Date(),
+    checkOutDate: new Date(),
+    location: 'Select Location'
     // Pid:''
  }
 
@@ -19,6 +22,9 @@ import { createSlice } from "@reduxjs/toolkit";
             state.adults = action.payload.adults ?action.payload.adults:state.adults
             state.children = action.payload.children ?action.payload.children:state.children
             state.popOver = action.payload.popOver ?action.payload.popOver: null
+            state.checkInDate = action.payload.checkInDate ?action.payload.checkInDate:state.checkInDate
+            state.checkOutDate = action.payload.checkOutDate ?action.payload.checkOutDate:state.checkOutDate
+            state.location = action.payload.location ?action.payload.location:state.location
             // state.Pid = action.payload.Pid ? action.payload.Pid:null
          }
 

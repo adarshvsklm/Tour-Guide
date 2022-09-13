@@ -4,8 +4,13 @@ import './sidebar.css';
 import axios from 'axios';
 import { serverUrl } from '../../../serverUrl';
 import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 
 const Sidebar = ({ children }) => {
+  const [cookies, setCookie] = useCookies();
+
+  console.log(cookies.regStatus, 6565765765765765);
+
   // const [acitve,setActive] = useState()
 
   let location = useLocation();
@@ -17,9 +22,9 @@ const Sidebar = ({ children }) => {
   const handleLogout = async () => {
     localStorage.removeItem('Admin');
     await axios
-      .get(`${serverUrl}/admin/logout`, { withCredentials: true })
+      .get(`${serverUrl}/hotel/logout`, { withCredentials: true })
       .then((res) => {
-        navigate('/admin/login');
+        navigate('/hotel/login');
       })
       .catch((err) => {
         console.log(err);
@@ -35,9 +40,23 @@ const Sidebar = ({ children }) => {
         >
           <i className='fas fa-bars'></i>
         </div>
-         <Link className='float-end text-white nav-link-icon'to=''  >
+        {cookies.regStatus == 'pending' ? (
+          <Link
+            to='/hotel/completeRegistration'
+            className='float-end text-white nav-link-icon'
+          >
             complete registration
-        </Link>
+          </Link>
+        ) : cookies.regStatus == 'rejected' ? (
+          <Link
+            to='/hotel/completeRegistration'
+            className='float-end text-white nav-link-icon'
+          >
+            Registration failed Try Again
+          </Link>
+        ) : (
+          ''
+        )}
       </header>
       <aside className={`sidebar ${show ? 'show' : null}`}>
         <nav className='nav'>

@@ -26,7 +26,8 @@ export default function Verification(props) {
   const handleClose = () => setOpen(false);
 
   const handleOtp = (otpNumber)=>{
-    props.saveOtp(otpNumber)
+    // props.saveOtp(otpNumber)
+    props.onChange()
   }
 
 

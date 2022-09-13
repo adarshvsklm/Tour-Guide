@@ -10,6 +10,8 @@ const Hotel = new mongoose.Schema(
     password: { type: String, required: true },
     refreshToken: { type: String },
     isBlocked: { type: Boolean },
+    aadhar: { type: String },
+    regStatus:{type: String}
   },
   {
     collection: 'hotel',

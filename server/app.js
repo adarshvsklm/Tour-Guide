@@ -1,4 +1,4 @@
- import express from 'express'
+import express from 'express'
 const app = express() 
 import mongoose from 'mongoose'
 const db = mongoose.connection
@@ -27,8 +27,8 @@ try {
 
 
 
-app.use(cors({origin: true, credentials:true}))
-app.options('*', cors({origin: true, credentials:true}));
+app.use(cors({ credentials:true ,origin: true,}))
+// app.options('*', cors({origin: true, credentials:true}));
 
 
 app.use(express.json())

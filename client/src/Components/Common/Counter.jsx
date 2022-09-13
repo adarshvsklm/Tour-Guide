@@ -3,14 +3,20 @@ import CounterInput from 'react-counter-input';
 import { useDispatch } from 'react-redux';
 import { setSearchData } from '../../Redux/User/SearchHotelSlice';
 
-export default function Counter({item}) {
-  const dispatch = useDispatch()
+export default function Counter({ item, setData,count }) {
+  const dispatch = useDispatch();
   // dispatch(setSearchData(item:))
+  console.log(count);
   return (
     <CounterInput
       min={0}
       max={10}
-      onCountChange={(count) => dispatch(setSearchData({rooms:count}))}
+      count={count}
+      onCountChange={(count) => {
+        var obj = {};
+        obj[item] = count;
+        setData(obj);
+      }}
     />
   );
 }

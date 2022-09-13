@@ -22,10 +22,15 @@ export default function PopOver() {
   const open = Boolean(popOver);
   //   const id = open ? 'simple-popover' : undefined;
 
-  // const [data,setData] = React.useState()
+  const [data,setData] = React.useState({})
   const searchData= useSelector((state) => state.searchData)
-  const handleData=(data)=>{
-    dispatch(setSearchData({  ...searchData,...data }));
+  const handleData=(dataCounts)=>{
+    setData({...data,...dataCounts})
+  }
+  
+  const handleSubmit =()=>{
+    console.log({...searchData,...data });
+    dispatch(setSearchData({...searchData,...data,popOver:null }));
 
   }
 
@@ -50,7 +55,7 @@ export default function PopOver() {
               <Typography sx={{ p: 2 }}>Rooms</Typography>
             </td>
             <td>
-              <Counter item='rooms' setData={handleData}/>
+              <Counter item='rooms' setData={handleData} count={searchData.rooms}/>
             </td>
           </tr>
           <tr>
@@ -58,7 +63,7 @@ export default function PopOver() {
               <Typography sx={{ p: 2 }}>Adults</Typography>
             </td>
             <td>
-              <Counter item='adults' setData={handleData}/>
+              <Counter item='adults' setData={handleData} count={searchData.adults} />
             </td>
           </tr>
           <tr>
@@ -66,11 +71,11 @@ export default function PopOver() {
               <Typography sx={{ p: 2 }}>Children</Typography>
             </td>
             <td>
-              <Counter item='children' setData={handleData} />
+              <Counter item='children' setData={handleData} count={searchData.children} />
             </td>
           </tr>
         </table>
-         <Button  style={{width: '100%', alignItems: 'center'}} className='mx-auto'> Update</Button>
+         <Button onClick={handleSubmit}  style={{width: '100%', alignItems: 'center'}} className='mx-auto'> Update</Button>
         </div>
       </Popover>
     </div>

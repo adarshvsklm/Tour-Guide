@@ -8,10 +8,9 @@ import { display } from '@mui/system';
 // import { toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
- 
-export default function ShowUsers() {
 
-    const columns = [
+export default function HotelRequests() {
+  const columns = [
     // { field: 'id', headerName: 'ID', width: 70 },
     { field: 'name', headerName: 'Name', width: 230 },
     { field: 'email', headerName: 'Email', width: 230 },
@@ -22,19 +21,19 @@ export default function ShowUsers() {
       headerName: 'Action',
       sortable: false,
       renderCell: (params) => {
-        const onClick = async (e) => {
-          e.stopPropagation(); // don't select this row after clicking
+        const onClick = async ({e,accept}) => {
+           e.stopPropagation(); // don't select this row after clicking
           try {
-            if (params.row.isBlocked) {
-               axios
-                .patch(`${serverUrl}/admin/user/unBlock?id=${params.row._id}`)
+            if (accept) {
+              axios
+                .patch(`${serverUrl}/admin/hotel/accept?id=${params.row._id}`)
                 .then((res) => {
                   // toast('UnBlocked User ', { autoClose: 800 });
                   setBlocked(!blocked);
                 });
             } else {
-               axios
-                .patch(`${serverUrl}/admin/user/block?id=${params.row._id}`)
+              axios
+                .patch(`${serverUrl}/admin/hotel/reject?id=${params.row._id}`)
                 .then((res) => {
                   // toast('Blocked User ', { autoClose: 800 });
                   setBlocked(!blocked);
@@ -45,30 +44,31 @@ export default function ShowUsers() {
             // toast("Some Error Occured",{autoClose:800})
           }
         };
- 
-        if (params.row.isBlocked) {
-           return (
+
+        // if (params.row.isBlocked) {
+        return (
+          <>
             <Button
               style={{ zIndex: '0' }}
               variant='outlined'
               color='success'
-              onClick={onClick}
+              onClick={(e)=>{onClick({e,accept: true});}}
             >
-              UnBlock
+              Accept
             </Button>
-          );
-        } else {
-           return (
             <Button
               style={{ zIndex: '0' }}
               variant='outlined'
               color='error'
-              onClick={onClick}
+              onClick={(e)=>{onClick({e,accept: false});}}
             >
-              Block
+              Reject
             </Button>
-          );
-        }
+          </>
+        );
+        // } else {
+
+        // }
       },
     },
 
@@ -101,23 +101,23 @@ export default function ShowUsers() {
     { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
   ];
 
-  const [users, setUsers] = React.useState();
+  const [hotels, setHotels] = React.useState();
   const [blocked, setBlocked] = useState();
 
   useEffect(() => {
     axios
-      .get(`${serverUrl}/admin/users`, { withCredentials: true })
+      .get(`${serverUrl}/admin/hotels/requests`, { withCredentials: true })
       .then((res) => {
-        // console.log(res.data.users);
-        let response = res.data.users;
-        setUsers(response);
+        console.log(res.data.requests);
+        let response = res.data.requests;
+        setHotels(response);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [blocked]);
 
-  console.log(users);
+  console.log(hotels);
   return (
     <div
       style={{
@@ -127,9 +127,9 @@ export default function ShowUsers() {
         justifyContent: 'space-between',
       }}
     >
-      {users && (
+      {hotels && (
         <DataGrid
-          rows={users}
+          rows={hotels}
           columns={columns}
           pageSize={10}
           getRowId={(row) => row._id}

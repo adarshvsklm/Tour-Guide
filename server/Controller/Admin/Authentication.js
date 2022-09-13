@@ -43,7 +43,7 @@ export default {
                     $set: { refreshToken: refreshToken },
                 }
                 );
-                res.cookie('AdminRefreshToken', accessToken, { maxAge: 60, httpOnly: true });
+                res.cookie('AdminRefreshToken', accessToken, { maxAge: 600, httpOnly: true });
                 res.cookie('AdminRefreshToken', refreshToken, { httpOnly: true });
                 res.cookie('adminId', admin._id, { httpOnly: true });
                 // console.log(9348534);

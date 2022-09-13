@@ -51,9 +51,9 @@ const Sidebar = ({children}) => {
                 <i className="fas fa-hotel nav-link-icon"></i>
                 <span className="nav-link-name">Users</span>
               </Link>
-              <Link to="/gallery" className="nav-link">
+              <Link to="/admin/hotels/requests" className={`nav-link   ${active == '/admin/hotels/requests' ? 'active':null}`}>
                 <i className="fas fa-image nav-link-icon"></i>
-                <span className="nav-link-name">Hotel</span>
+                <span className="nav-link-name">Hotel Requests</span>
               </Link>
             </div>
           </div>
