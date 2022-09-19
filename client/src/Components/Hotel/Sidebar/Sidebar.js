@@ -67,20 +67,20 @@ const Sidebar = ({ children }) => {
             </Link>
             <div className='nav-list'>
               <Link
-                to='/admin'
-                className={`nav-link   ${active == '/hotel' ? 'active' : null}`}
+                to='/hotel/dashboard'
+                className={`nav-link   ${active == '/hotel' || active == '/hotel/dashboard'   ? 'active' : null}`}
               >
                 <i className='fas fa-tachometer nav-link-icon'></i>
                 <span className='nav-link-name'>Dashboard</span>
               </Link>
               <Link
-                to='/admin/users'
+                to='/hotel/RegisterHotel'
                 className={`nav-link   ${
-                  active == '/admin/users' ? 'active' : null
+                  active == '/hotel/RegisterHotel' ? 'active' : null
                 }`}
               >
                 <i className='fas fa-hotel nav-link-icon'></i>
-                <span className='nav-link-name'>Users</span>
+                <span className='nav-link-name'>Register Hotel</span>
               </Link>
               <Link to='/gallery' className='nav-link'>
                 <i className='fas fa-image nav-link-icon'></i>

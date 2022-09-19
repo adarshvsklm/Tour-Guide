@@ -13,6 +13,7 @@ import DashBoard from './Pages/Hotels/DashBoard';
 import HotelBookingHomePage from './Pages/User/HotelBookingHomePage';
 import CompleteReg from './Pages/Hotels/CompleteReg';
 import ViewRequests from './Pages/Admin/ViewRequests';
+import RegisterHotel from './Pages/Hotels/RegisterHotel';
 // import { ToastContainer } from 'react-toastify'
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
             <Route path='login' element={<HotelLoginPage />} /> 
             <Route path='signup' element={<HotelSignUpPage />} />
             <Route path='completeRegistration' element={<CompleteReg />} />
+            <Route path='RegisterHotel' element={<RegisterHotel />} />
           </Route>
         </Routes>
       </Router>

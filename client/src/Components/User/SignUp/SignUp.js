@@ -80,6 +80,7 @@ export default function SignUp(props) {
   let hasUpperChar = /(.*[A-Z].*)/.test(password);
   let hasNumber = /(.*[0-9].*)/.test(password);
   let hasSpecialChar = /(.*[^a-zA-Z0-9].*)/.test(password);
+  
   //email validation
   const hasEmail =
     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(

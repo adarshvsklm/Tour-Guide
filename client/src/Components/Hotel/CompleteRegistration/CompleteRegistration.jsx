@@ -14,7 +14,7 @@ function CompleteRegistration() {
   const navigate = useNavigate();
   const handleSubmit = () => {
     const formData = new FormData();
-    formData.append('file', image);
+     formData.append('file', image);
     formData.append('upload_preset', 'aadharCard_mySpace');
     console.log(formData);
     axios
@@ -45,7 +45,7 @@ function CompleteRegistration() {
   };
 
   const File = (e) => {
-    console.log(e[0]);
+    console.log(e);
     setImage(e[0]);
   };
   return (
